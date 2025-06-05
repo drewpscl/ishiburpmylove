@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Do You Love Me?</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      color: #e91e63;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      position: absolute;
+      transition: top 0.3s, left 0.3s;
+    }
+
+    #yesBtn {
+      background-color: #4CAF50;
+      color: white;
+      left: 40%;
+      top: 60%;
+      z-index: 2;
+    }
+
+    #noBtn {
+      background-color: #f44336;
+      color: white;
+      left: 55%;
+      top: 60%;
+      z-index: 2;
+    }
+
+    #message {
+      font-size: 24px;
+      color: #d81b60;
+      margin-top: 20px;
+      text-align: center;
+      max-width: 80%;
+      z-index: 2;
+    }
+
+    /* Wiggle animation */
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      50% { transform: rotate(-5deg); }
+      75% { transform: rotate(3deg); }
+    }
+
+    .wiggle {
+      animation: wiggle 0.3s ease-in-out;
+    }
+
+    /* Glitter particles */
+    .glitter {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle 1s ease-out forwards;
+    }
+
+    @keyframes sparkle {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--x), var(--y)) scale(0.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Do you love me? 💖</h1>
+
+  <button id="yesBtn" class="btn">Yes</button>
+  <button id="noBtn" class="btn">No</button>
+
+  <div id="message"></div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const messageDiv = document.getElementById('message');
+
+    noBtn.addEventListener('click', () => {
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+
+      // Add wiggle animation
+      noBtn.classList.add('wiggle');
+      setTimeout(() => noBtn.classList.remove('wiggle'), 300);
+    });
+
+    yesBtn.addEventListener('click', () => {
+      messageDiv.innerHTML = "Aww 🥰 Sabi ku na ehh i love you more! 💘✨";
+      makeGlitter(yesBtn);
+    });
+
+    function makeGlitter(button) {
+      for (let i = 0; i < 30; i++) {
+        const glitter = document.createElement('div');
+        glitter.classList.add('glitter');
+
+        const angle = Math.random() * 2 * Math.PI;
+        const radius = Math.random() * 80 + 20;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+
+        glitter.style.setProperty('--x', `${x}px`);
+        glitter.style.setProperty('--y', `${y}px`);
+
+        const rect = button.getBoundingClientRect();
+        glitter.style.left = `${rect.left + rect.width / 2}px`;
+        glitter.style.top = `${rect.top + rect.height / 2}px`;
+
+        document.body.appendChild(glitter);
+
+        // Remove after animation
+        setTimeout(() => glitter.remove(), 1000);
+      }
+    }
+  </script>
+
+</body>
+</html>
